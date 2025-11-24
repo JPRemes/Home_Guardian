@@ -34,11 +34,13 @@ const api = '/api'; // Contexto del API
 const getLecturas = "/getLecturas";
 const getLecturasByDate = "/getLecturasBetweenDates";
 const postLecturas = "/insertLectura";
+const getLastLectura = "/getLastLectura";
 
 // SQL QUERIES
 const selectLecturas = 'SELECT * FROM lecturas';
 const selectLecturasByDate = 'SELECT * FROM lecturas WHERE fecha between ? and ?';
 const insertLectura = 'INSERT INTO lecturas (id_sensor, valor) values (?,?)';
+const selectLastLectura = 'SELECT id_lectura FROM lecturas WHERE id_sensor = ? ORDER BY id_lectura DESC LIMIT 1';
 
 // ---- Tabla Alerta ----
 // URLs
@@ -51,6 +53,6 @@ const insertAlerta = 'INSERT INTO alerta (id_lectura) values (?)';
 
 module.exports= {
    dbHost,dbPort,dbUser,dbPass,dbName,serverPort, contextURL,api,
-   getLecturas, getLecturasByDate, postLecturas, selectLecturas, selectLecturasByDate, insertLectura,
+   getLecturas, getLecturasByDate, postLecturas, getLastLectura, selectLecturas, selectLecturasByDate, insertLectura, selectLastLectura,
    getAlertas, postAlertas, selectAlertas, insertAlerta
 }

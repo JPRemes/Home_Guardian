@@ -20,6 +20,7 @@ const lecturas = require('./api/lecturas'); // import del archivo que tiene la l
 router.get(constants.contextURL + constants.api + constants.getLecturas, lecturas.getLogLecturas);
 router.post(constants.contextURL + constants.api + constants.getLecturasByDate, lecturas.getLecturasBetweenDates);
 router.post(constants.contextURL + constants.api + constants.postLecturas, lecturas.insertNewLectura);
+router.post(constants.contextURL + constants.api + constants.getLastLectura, lecturas.getLastLectura);
 
 // --- Alertas ---
 

@@ -1,6 +1,7 @@
 // Archivo que maneja las peticiones relacionadas con las lecturas.
 const mysql = require("../database/MySQLMngr");
 const constants = require("../constants");
+const { get } = require("../router");
 
 
 /**
@@ -89,8 +90,39 @@ async function insertNewLectura(req,res){
     }
 }
 
+/**
+ * Metodo que permite realizar un GET del ultimo registro de un sensor en especifico.
+ * Su comportamiento es tipo GET pero, al enviarse datos al server, se utiliza POST.
+ * 
+ * 
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function getLastLectura(req,res){
+    try{
+        let query = constants.selectLastLectura;
+        var id_sensor = req.body.id_sensor;
+        let params = [id_sensor];
+
+        let qResult = await mysql.getDataWithParams(query, params);
+
+        res.status(200);
+        res.json(qResult);
+    }catch(error){
+        let jsonError = {
+            "status"  : "error",
+            "message" : error.message
+        };
+        console.log(error);
+        res.status(500);
+        res.send(jsonError);
+    }
+}
+
 module.exports = {
     getLogLecturas,
     getLecturasBetweenDates,
-    insertNewLectura
+    insertNewLectura,
+    getLastLectura
 };
