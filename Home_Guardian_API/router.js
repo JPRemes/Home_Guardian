@@ -10,19 +10,22 @@
 const express = require('express');
 const router = express.Router();
 const constants =  require('./constants');
-const sensorTemp = require('./api/sensorTemperatura'); // import del archivo que tiene la lógica de manejo de peticiones
-const sensorLuz = require('./api/sensorLuz');
+const alertas = require('./api/alertas');
+const lecturas = require('./api/lecturas'); // import del archivo que tiene la lógica de manejo de peticiones
 
 //Al router le damos todas las urls y los métodos que van a procesar las peticiones web.
 
-// --- Sensor de Temperatura ---
-router.get(constants.contextURL + constants.api + constants.getTemperatureSensor, sensorTemp.getLogTemperatures);
-router.post(constants.contextURL + constants.api + constants.getTemperatureSensorByDate, sensorTemp.getTemperaturesBetweenDates);
-router.post(constants.contextURL + constants.api + constants.postTemperatureSensor, sensorTemp.insertNewTemperature);
+// --- Lecturas ---
 
-// --- Sensor de Luz ---
-router.get(constants.contextURL + constants.api + constants.getLightSensor, sensorLuz.getLogLight);
-router.post(constants.contextURL + constants.api + constants.getLightSensorByDate, sensorLuz.getLightBetweenDates);
-router.post(constants.contextURL + constants.api + constants.postLightSensor, sensorLuz.insertNewLight);
+router.get(constants.contextURL + constants.api + constants.getLecturas, lecturas.getLogLecturas);
+router.post(constants.contextURL + constants.api + constants.getLecturasByDate, lecturas.getLecturasBetweenDates);
+router.post(constants.contextURL + constants.api + constants.postLecturas, lecturas.insertNewLectura);
+
+// --- Alertas ---
+
+router.get(constants.contextURL + constants.api + constants.getAlertas, alertas.getLogAlertas);
+router.post(constants.contextURL + constants.api + constants.postAlertas, alertas.insertNewAlerta);
+
+
 //le decimos a Node que queremos hacer uso de nuestro router en otros archivos (como por ejemplo, app.js)
 module.exports = router;

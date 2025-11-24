@@ -1,22 +1,17 @@
-/**
- * Archivo que maneja las peticiones relacionadas con el sensor de luz.
- * Aquí se definen las funciones que procesan las peticiones web (endpoints)
- * relacionadas con el sensor de luz.
- */
-
+// Archivo que maneja las peticiones relacionadas con las lecturas.
 const mysql = require("../database/MySQLMngr");
-const constants = require("../constants")
+const constants = require("../constants");
 
 
 /**
- * Método que responde a la petición GET para obtener todos los registros de luz.
+ * Método que responde a la petición GET para obtener todos los registros.
  * @param {Object} req Request Object
  * @param {Object} res Response to the client.
  */
-async function getLogLight(req,res) {
+async function getLogLecturas(req,res) {
     try{
 
-        let query = constants.selectLight; //busca el query de temperaturas
+        let query = constants.selectLecturas; //busca el query de temperaturas
         let qResult = await mysql.getData(query); // ejecuta el query con la librería proporcionada
 
         res.status(200); //regresa el resultado en formato JSON
@@ -32,8 +27,9 @@ async function getLogLight(req,res) {
     }
 }
 
+
 /**
- * Método que permite realizar una consulta de luz entre dos fechas.
+ * Metodo que permite realizar una consulta de las lecturas entre dos fechas.
  * Su comportamiento es tipo GET pero, al enviarse datos al server, se utiliza POST.
  * 
  * Puede ser Util para realizar analíticas de datos.
@@ -41,10 +37,10 @@ async function getLogLight(req,res) {
  * @param {*} req 
  * @param {*} res 
  */
-async function getLightBetweenDates(req,res){
+async function getLecturasBetweenDates(req,res){
     try{
         //later: validate session and find users tasks
-        let query = constants.selectLightByDate;
+        let query = constants.selectLecturasByDate;
         var date_one = req.body.date_one;
         var date_two = req.body.date_two;
         let params = [date_one, date_two];
@@ -65,17 +61,18 @@ async function getLightBetweenDates(req,res){
 }
 
 /**
- * Método básico que permite insertar un nuevo valor de luz en la base de datos.
+ * Método básico que permite insertar una nueva lectura en la base de datos.
  * 
  * @param {*} req 
  * @param {*} res 
  */
-async function insertNewLight(req,res){
+async function insertNewLectura(req,res){
     try{
         //later: validate session and find users tasks
-        let query = constants.insertLight;
-        var luz = req.body.valor;
-        let params = [luz];
+        let query = constants.insertLectura;
+        var id_sensor = req.body.id_sensor;
+        var valor = req.body.valor;
+        let params = [id_sensor, valor];
 
         let qResult = await mysql.getDataWithParams(query, params);
 
@@ -92,4 +89,8 @@ async function insertNewLight(req,res){
     }
 }
 
-module.exports = {getLogLight, getLightBetweenDates, insertNewLight};
+module.exports = {
+    getLogLecturas,
+    getLecturasBetweenDates,
+    insertNewLectura
+};
