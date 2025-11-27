@@ -21,6 +21,13 @@ const dbUser = "root";
 const dbPass = "*****";
 const dbName = "Home_Guardian";
 
+// LLave
+const API_KEYS = [
+   "MI_SUPER_TOKEN_123",
+   "MI_OTRO_TOKEN_456",
+   "12345"
+];
+
 
 /*
  * Server General Configuration
@@ -53,6 +60,7 @@ const insertAlerta = 'INSERT INTO alerta (id_lectura) values (?)';
 
 module.exports= {
    dbHost,dbPort,dbUser,dbPass,dbName,serverPort, contextURL,api,
+   API_KEYS,
    getLecturas, getLecturasByDate, postLecturas, getLastLectura, selectLecturas, selectLecturasByDate, insertLectura, selectLastLectura,
    getAlertas, postAlertas, selectAlertas, insertAlerta
 }

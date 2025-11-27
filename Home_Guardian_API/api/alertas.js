@@ -1,6 +1,7 @@
 // Archivo que maneja las peticiones relacionadas con las lecturas.
 const mysql = require("../database/MySQLMngr");
 const constants = require("../constants");
+const { validateApiKey } = require("../auth");
 
 
 /**
@@ -9,6 +10,7 @@ const constants = require("../constants");
  * @param {Object} res Response to the client.
  */
 async function getLogAlertas(req,res) {
+    if (!validateApiKey(req, res)) return;
     try{
 
         let query = constants.selectAlertas; //busca el query de temperaturas
@@ -35,6 +37,7 @@ async function getLogAlertas(req,res) {
  * @param {*} res 
  */
 async function insertNewAlerta(req,res){
+    if (!validateApiKey(req, res)) return;
     try{
         //later: validate session and find users tasks
         let query = constants.insertAlerta;

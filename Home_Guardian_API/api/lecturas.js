@@ -1,6 +1,7 @@
 // Archivo que maneja las peticiones relacionadas con las lecturas.
 const mysql = require("../database/MySQLMngr");
 const constants = require("../constants");
+const { validateApiKey } = require("../auth");
 const { get } = require("../router");
 
 
@@ -10,6 +11,7 @@ const { get } = require("../router");
  * @param {Object} res Response to the client.
  */
 async function getLogLecturas(req,res) {
+    if (!validateApiKey(req, res)) return;
     try{
 
         let query = constants.selectLecturas; //busca el query de temperaturas
@@ -39,6 +41,7 @@ async function getLogLecturas(req,res) {
  * @param {*} res 
  */
 async function getLecturasBetweenDates(req,res){
+    if (!validateApiKey(req, res)) return;
     try{
         //later: validate session and find users tasks
         let query = constants.selectLecturasByDate;
@@ -68,6 +71,7 @@ async function getLecturasBetweenDates(req,res){
  * @param {*} res 
  */
 async function insertNewLectura(req,res){
+    if (!validateApiKey(req, res)) return;
     try{
         //later: validate session and find users tasks
         let query = constants.insertLectura;
@@ -100,6 +104,7 @@ async function insertNewLectura(req,res){
  * @param {*} res 
  */
 async function getLastLectura(req,res){
+    if (!validateApiKey(req, res)) return;
     try{
         let query = constants.selectLastLectura;
         var id_sensor = req.body.id_sensor;
