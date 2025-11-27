@@ -18,6 +18,7 @@ async function getLogLecturas(req,res) {
         let qResult = await mysql.getData(query); // ejecuta el query con la librería proporcionada
 
         res.status(200); //regresa el resultado en formato JSON
+        console.log("getLogLecturas");
         res.json(qResult);
     } catch(error) {
         let jsonError = {
@@ -52,6 +53,7 @@ async function getLecturasBetweenDates(req,res){
         let qResult = await mysql.getDataWithParams(query, params);
 
         res.status(200);
+        console.log("getLecturasBetweenDates");
         res.json(qResult);
     }catch(error){
         let jsonError = {
@@ -82,6 +84,7 @@ async function insertNewLectura(req,res){
         let qResult = await mysql.getDataWithParams(query, params);
 
         res.status(200);
+        console.log("insertNewLectura");
         res.json(qResult);
     }catch(error){
         let jsonError = {
@@ -113,6 +116,7 @@ async function getLastLectura(req,res){
         let qResult = await mysql.getDataWithParams(query, params);
 
         res.status(200);
+        console.log("getLastLectura");
         res.json(qResult);
     }catch(error){
         let jsonError = {

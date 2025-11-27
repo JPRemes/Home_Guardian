@@ -17,6 +17,7 @@ async function getLogAlertas(req,res) {
         let qResult = await mysql.getData(query); // ejecuta el query con la librería proporcionada
 
         res.status(200); //regresa el resultado en formato JSON
+        console.log("getLogAlertas");
         res.json(qResult);
     } catch(error) {
         let jsonError = {
@@ -47,6 +48,7 @@ async function insertNewAlerta(req,res){
         let qResult = await mysql.getDataWithParams(query, params);
 
         res.status(200);
+        console.log("insertNewAlerta");
         res.json(qResult);
     }catch(error){
         let jsonError = {
