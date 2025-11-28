@@ -11,7 +11,8 @@ const express = require('express');
 const router = express.Router();
 const constants =  require('./constants');
 const alertas = require('./api/alertas');
-const lecturas = require('./api/lecturas'); // import del archivo que tiene la lógica de manejo de peticiones
+const lecturas = require('./api/lecturas');
+const consultas = require('./api/consulta');
 
 //Al router le damos todas las urls y los métodos que van a procesar las peticiones web.
 
@@ -26,6 +27,11 @@ router.post(constants.contextURL + constants.api + constants.getLastLectura, lec
 
 router.get(constants.contextURL + constants.api + constants.getAlertas, alertas.getLogAlertas);
 router.post(constants.contextURL + constants.api + constants.postAlertas, alertas.insertNewAlerta);
+
+// --- Consultas ---
+
+router.get(constants.contextURL + constants.api + constants.getConsulta, consultas.getConsulta);
+router.get(constants.contextURL + constants.api + constants.getConsultaHTML, consultas.getConsultaHTML);
 
 
 //le decimos a Node que queremos hacer uso de nuestro router en otros archivos (como por ejemplo, app.js)

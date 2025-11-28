@@ -58,9 +58,20 @@ const postAlertas = "/insertAlerta";
 const selectAlertas = 'SELECT * FROM alerta';
 const insertAlerta = 'INSERT INTO alerta (id_lectura) values (?)';
 
+// ---- Consultas ---
+// URLs
+const getConsulta = "/getConsulta";
+const getConsultaHTML = "/getConsultaHTML";
+
+// SQL QUERIES
+const selectConsulta = 'SELECT l.id_lectura, s.nombre, l.valor, s.unidad, l.hora FROM lecturas l JOIN sensores s ON l.id_sensor = s.id_sensor ORDER BY l.id_lectura;';
+
+
+
 module.exports= {
    dbHost,dbPort,dbUser,dbPass,dbName,serverPort, contextURL,api,
    API_KEYS,
    getLecturas, getLecturasByDate, postLecturas, getLastLectura, selectLecturas, selectLecturasByDate, insertLectura, selectLastLectura,
-   getAlertas, postAlertas, selectAlertas, insertAlerta
+   getAlertas, postAlertas, selectAlertas, insertAlerta,
+   getConsulta, selectConsulta, getConsultaHTML
 }
