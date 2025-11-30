@@ -23,9 +23,8 @@ const dbName = "Home_Guardian";
 
 // LLave
 const API_KEYS = [
-   "MI_SUPER_TOKEN_123",
-   "MI_OTRO_TOKEN_456",
-   "12345"
+   "REDACTED",
+   "REDACTED",
 ];
 
 
@@ -62,9 +61,11 @@ const insertAlerta = 'INSERT INTO alerta (id_lectura) values (?)';
 // URLs
 const getConsulta = "/getConsulta";
 const getConsultaHTML = "/getConsultaHTML";
+const getConsultaAlertas = "/getConsultaAlertasHTML";
 
 // SQL QUERIES
-const selectConsulta = 'SELECT l.id_lectura, s.nombre, l.valor, s.unidad, l.hora FROM lecturas l JOIN sensores s ON l.id_sensor = s.id_sensor ORDER BY l.id_lectura;';
+const selectConsulta = 'SELECT l.id_lectura, s.tipo, l.valor, s.unidad, l.hora FROM lecturas l JOIN sensores s ON l.id_sensor = s.id_sensor ORDER BY l.id_lectura;';
+const selectConsultaAlertas = 'SELECT a.id_alerta, s.tipo, l.valor, s.unidad, l.hora FROM alerta a JOIN lecturas l ON a.id_lectura = l.id_lectura JOIN sensores s ON l.id_sensor = s.id_sensor ORDER BY a.id_alerta;';
 
 
 
@@ -73,5 +74,5 @@ module.exports= {
    API_KEYS,
    getLecturas, getLecturasByDate, postLecturas, getLastLectura, selectLecturas, selectLecturasByDate, insertLectura, selectLastLectura,
    getAlertas, postAlertas, selectAlertas, insertAlerta,
-   getConsulta, selectConsulta, getConsultaHTML
+   getConsulta, selectConsulta, getConsultaHTML, getConsultaAlertas, selectConsultaAlertas
 }

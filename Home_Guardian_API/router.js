@@ -32,6 +32,7 @@ router.post(constants.contextURL + constants.api + constants.postAlertas, alerta
 
 router.get(constants.contextURL + constants.api + constants.getConsulta, consultas.getConsulta);
 router.get(constants.contextURL + constants.api + constants.getConsultaHTML, consultas.getConsultaHTML);
+router.get(constants.contextURL + constants.api + constants.getConsultaAlertas, consultas.getConsultaAlertasHTML);
 
 
 //le decimos a Node que queremos hacer uso de nuestro router en otros archivos (como por ejemplo, app.js)

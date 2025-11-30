@@ -37,7 +37,7 @@ async function getConsultaHTML(req, res) {
     const tableRows = rows.map(r => `
       <tr>
         <td>${r.id_lectura}</td>
-        <td>${r.nombre}</td>
+        <td>${r.tipo}</td>
         <td>${r.valor}</td>
         <td>${r.unidad}</td>
         <td>${r.hora}</td>
@@ -57,7 +57,35 @@ async function getConsultaHTML(req, res) {
   }
 }
 
+async function getConsultaAlertasHTML(req, res) {
+  try {
+    let qResult = await mysql.getData(constants.selectConsultaAlertas);
+    const rows = qResult.getRows ? qResult.getRows() : qResult.rows || [];
+
+    const tableRows = rows.map(r => `
+      <tr>
+        <td>${r.id_alerta}</td>
+        <td>${r.tipo}</td>
+        <td>${r.valor}</td>
+        <td>${r.unidad}</td>
+        <td>${r.hora}</td>
+      </tr>
+    `).join("");
+
+    const filePath = path.join(__dirname, "..", "views", "alertas.html");
+    let html = fs.readFileSync(filePath, "utf8");
+
+    // Reemplazar placeholder
+    html = html.replace("{{DATA_ROWS}}", tableRows);
+
+    res.status(200).send(html);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error: " + error.message);
+  }
+}
 module.exports = {
     getConsulta,
-    getConsultaHTML
+    getConsultaHTML,
+    getConsultaAlertasHTML
 };

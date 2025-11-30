@@ -17,14 +17,14 @@ DROP TABLE IF EXISTS sensores;
 
 CREATE TABLE sensores (
     id_sensor INT AUTO_INCREMENT PRIMARY KEY,
-    nombre ENUM('temperatura', 'luz', 'gas') NOT NULL,
+    nombre VARCHAR(20) NOT NULL,
+    tipo VARCHAR(20) NOT NULL,
     unidad VARCHAR(20)    -- '°C', 'lux', 'bool', etc.
 );
 
-INSERT INTO sensores (nombre, unidad) VALUES
-('temperatura', '°C'),
-('luz', 'lux'),
-('gas', 'bool');
+INSERT INTO sensores (nombre, tipo, unidad) VALUES
+('DHT11','temperatura', '°C'),
+('Mq-135','gas', 'ppm');
 
 CREATE TABLE lecturas (
     id_lectura INT AUTO_INCREMENT PRIMARY KEY,
