@@ -12,8 +12,8 @@
 DHT dht(tempSensor, DHTTYPE);
 
 
-#define WIFI_SSID "REDACTED"           // Tec-Io
-#define WIFI_PASSWORD "REDACTED"       // REDACTED"
+#define WIFI_SSID "******"           // Tec-Io
+#define WIFI_PASSWORD "******"       // REDACTED"
 
 HTTPClient httpClient;
 WiFiClient wClient;
