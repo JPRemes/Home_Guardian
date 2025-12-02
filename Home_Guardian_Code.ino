@@ -8,26 +8,27 @@
 #define gasSensor A0
 #define tempSensor D4
 #define DHTTYPE DHT11
+#define ledWiFi D3
 
 DHT dht(tempSensor, DHTTYPE);
 
 
-#define WIFI_SSID "******"           // Tec-Io
-#define WIFI_PASSWORD "******"       // REDACTED"
+#define WIFI_SSID "Tec-IoT"           // Tec-IoT
+#define WIFI_PASSWORD "REDACTED"       // REDACTED"
 
 HTTPClient httpClient;
 WiFiClient wClient;
 
-String URLinsertLectura = "http://192.168.4.245:3000/iot/api/insertLectura";
-String URLgetLastLectura = "http://192.168.4.245:3000/iot/api/getLastLectura";
-String URLinsertAlerta = "http://192.168.4.245:3000/iot/api/insertAlerta";
+String URLinsertLectura = "http://REDACTED:3000/iot/api/insertLectura";
+String URLgetLastLectura = "http://REDACTED:3000/iot/api/getLastLectura";
+String URLinsertAlerta = "http://REDACTED:3000/iot/api/insertAlerta";
 String KEY = "REDACTED";
 
 
 const int umbralGas = 500;
 const int umbralTemp = 40;
-int tempTime = 0;
-int tempGas = 0;
+int countTemp = 0;
+int countGas = 0;
 
 int const idSensorTemp = 1;
 int const idSensorGas = 2;
@@ -45,8 +46,8 @@ void setup() {
     pinMode(tempSensor, INPUT);
 
     // LED
-    pinMode(D0, OUTPUT);
-    digitalWrite(D0, HIGH);
+    pinMode(ledWiFi, OUTPUT);
+    digitalWrite(ledWiFi, LOW);
     
     // Sensor de temperatura
     dht.begin();
@@ -65,13 +66,15 @@ void setup() {
     Serial.print(WIFI_SSID);
     Serial.print("\"");
     while (WiFi.status() != WL_CONNECTED) {
+        digitalWrite(ledWiFi, HIGH);
         delay(250);
         Serial.print(".");
+        digitalWrite(ledWiFi, LOW);
         delay(250);
     }
     Serial.print("\nConectado! IP: ");
+    digitalWrite(ledWiFi, HIGH);
     Serial.println(WiFi.localIP());
-
 
     Serial.println("Iniciando...");
     delay(3000);
@@ -81,35 +84,39 @@ void setup() {
 void loop() {
     float temp = dht.readTemperature();
     int gasVal = analogRead(gasSensor);
-    
-    if (tempTime == 5) {
+
+    if (temp > umbralTemp) {
+      Serial.println("Temperatura alta!");
+      buzzerloop();
+      lecturaIntentoPOSinsert(idSensorTemp, temp);
+      insertAlerta(idSensorTemp);
+      countTemp = 0;
+    }
+
+    if (gasVal > umbralGas) {
+      Serial.println("Gas detectado!");
+      buzzerloop();
+      lecturaIntentoPOSinsert(idSensorGas, gasVal);
+      insertAlerta(idSensorGas);
+      countGas = 0;
+    }
+            
+    if (countTemp == 300) {
         Serial.print("Temperatura: ");
         Serial.print(temp);
         Serial.println(" C");
         lecturaIntentoPOSinsert(idSensorTemp, temp);
-        tempTime = 0;
-
-        if (temp > umbralTemp) {
-            Serial.println("Temperatura alta!");
-            buzzerloop();
-            insertAlerta(idSensorTemp);
-        }
+        countTemp = 0;
     }
 
-    if (tempGas == 2) {
+    if (countGas == 120) {
         Serial.print("Gas sensor value: ");
         Serial.println(gasVal);
         lecturaIntentoPOSinsert(idSensorGas, gasVal);
-
-        if (gasVal > umbralGas) {
-            Serial.println("Gas detectado!");
-            buzzerloop();
-            insertAlerta(idSensorGas);
-        }
-        tempGas = 0;
+        countGas = 0;
     }
     
-    tempGas += 1;   tempTime += 1;
+    countGas += 1;   countTemp += 1;
     delay(1000);   
 }
 
