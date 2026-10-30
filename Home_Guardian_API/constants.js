@@ -12,20 +12,23 @@
 
 
 
+// Carga las variables de entorno desde .env (ver .env.example)
+require('dotenv').config();
+
 /*
  * Configuración local de la Base de Datos MySQL
  */
-const dbHost = "localhost";
-const dbPort = "3306";
-const dbUser = "root";
-const dbPass = "*****";
-const dbName = "Home_Guardian";
+const dbHost = process.env.DB_HOST || "localhost";
+const dbPort = process.env.DB_PORT || "3306";
+const dbUser = process.env.DB_USER;
+const dbPass = process.env.DB_PASS;
+const dbName = process.env.DB_NAME || "Home_Guardian";
 
-// LLave
-const API_KEYS = [
-   "REDACTED",
-   "REDACTED",
-];
+// LLaves: lista separada por comas en la variable API_KEYS
+const API_KEYS = (process.env.API_KEYS || "")
+   .split(",")
+   .map(k => k.trim())
+   .filter(k => k.length > 0);
 
 
 /*
