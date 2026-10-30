@@ -47,6 +47,8 @@ Tres tablas relacionadas, diseñadas en MySQL Workbench:
 
 ![Diagrama de conexiones](images/conexiones.png)
 
+![Diagrama de conexiones del LED de estado](images/conexiones-led.png)
+
 ## Tecnologías
 
 Arduino IDE (librerías DHT, PubSubClient, ESP8266WiFi), Node.js, MySQL, MySQL Workbench, Looker Studio, Tinkercad.
