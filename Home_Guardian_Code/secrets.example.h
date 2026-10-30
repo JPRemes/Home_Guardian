@@ -1,5 +1,3 @@
-// Plantilla de credenciales.
-// Copia este archivo como secrets.h y llena tus valores. secrets.h está en .gitignore.
 #pragma once
 
 #define WIFI_SSID "tu_red_wifi"

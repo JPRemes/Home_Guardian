@@ -2,7 +2,7 @@
 #include <WiFiClient.h>
 #include <ESP8266HTTPClient.h>
 #include <DHT.h>
-#include "secrets.h"   // Credenciales (no versionado). Copia secrets.example.h -> secrets.h
+#include "secrets.h"
 
 #define buzzer D1
 #define boton D2

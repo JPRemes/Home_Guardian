@@ -1,12 +1,9 @@
-# Credenciales
 secrets.h
 .env
 
-# Build de Arduino
 build/
 *.bin
 *.elf
 *.hex
 
-# macOS
 .DS_Store
