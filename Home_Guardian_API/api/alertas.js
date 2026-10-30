@@ -2,6 +2,7 @@
 const mysql = require("../database/MySQLMngr");
 const constants = require("../constants");
 const { validateApiKey } = require("../auth");
+const { isPositiveInt, badRequest } = require("../validation");
 
 
 /**
@@ -43,6 +44,7 @@ async function insertNewAlerta(req,res){
         //later: validate session and find users tasks
         let query = constants.insertAlerta;
         var id_lectura = req.body.id_lectura;
+        if (!isPositiveInt(id_lectura)) return badRequest(res, "id_lectura debe ser un entero positivo");
         let params = [id_lectura];
 
         let qResult = await mysql.getDataWithParams(query, params);

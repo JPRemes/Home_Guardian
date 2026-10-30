@@ -2,6 +2,7 @@
 const mysql = require("../database/MySQLMngr");
 const constants = require("../constants");
 const { validateApiKey } = require("../auth");
+const { isPositiveInt, isNumber, isDate, badRequest } = require("../validation");
 const { get } = require("../router");
 
 
@@ -48,6 +49,7 @@ async function getLecturasBetweenDates(req,res){
         let query = constants.selectLecturasByDate;
         var date_one = req.body.date_one;
         var date_two = req.body.date_two;
+        if (!isDate(date_one) || !isDate(date_two)) return badRequest(res, "date_one y date_two deben ser fechas válidas");
         let params = [date_one, date_two];
 
         let qResult = await mysql.getDataWithParams(query, params);
@@ -79,6 +81,8 @@ async function insertNewLectura(req,res){
         let query = constants.insertLectura;
         var id_sensor = req.body.id_sensor;
         var valor = req.body.valor;
+        if (!isPositiveInt(id_sensor)) return badRequest(res, "id_sensor debe ser un entero positivo");
+        if (!isNumber(valor)) return badRequest(res, "valor debe ser un número");
         let params = [id_sensor, valor];
 
         let qResult = await mysql.getDataWithParams(query, params);
@@ -111,6 +115,7 @@ async function getLastLectura(req,res){
     try{
         let query = constants.selectLastLectura;
         var id_sensor = req.body.id_sensor;
+        if (!isPositiveInt(id_sensor)) return badRequest(res, "id_sensor debe ser un entero positivo");
         let params = [id_sensor];
 
         let qResult = await mysql.getDataWithParams(query, params);

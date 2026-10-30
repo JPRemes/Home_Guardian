@@ -1,5 +1,6 @@
 const mysql = require("../database/MySQLMngr");
 const constants = require("../constants");
+const { validateApiKey } = require("../auth");
 const { get } = require("../router");
 
 /**
@@ -7,6 +8,7 @@ const { get } = require("../router");
  * @param {Object} res Response to the client.
  */
 async function getConsulta(req,res) {
+    if (!validateApiKey(req, res)) return;
     try{
 
         let query = constants.selectConsulta; 
@@ -30,6 +32,7 @@ const fs = require("fs");
 const path = require("path");
 
 async function getConsultaHTML(req, res) {
+  if (!validateApiKey(req, res, true)) return;
   try {
     let qResult = await mysql.getData(constants.selectConsulta);
     const rows = qResult.getRows ? qResult.getRows() : qResult.rows || [];
@@ -58,6 +61,7 @@ async function getConsultaHTML(req, res) {
 }
 
 async function getConsultaAlertasHTML(req, res) {
+  if (!validateApiKey(req, res, true)) return;
   try {
     let qResult = await mysql.getData(constants.selectConsultaAlertas);
     const rows = qResult.getRows ? qResult.getRows() : qResult.rows || [];

@@ -12,7 +12,6 @@
 
 
 
-// Carga las variables de entorno desde .env (ver .env.example)
 require('dotenv').config();
 
 /*
@@ -24,7 +23,7 @@ const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
 const dbName = process.env.DB_NAME || "Home_Guardian";
 
-// LLaves: lista separada por comas en la variable API_KEYS
+// LLave
 const API_KEYS = (process.env.API_KEYS || "")
    .split(",")
    .map(k => k.trim())
@@ -47,7 +46,7 @@ const getLastLectura = "/getLastLectura";
 
 // SQL QUERIES
 const selectLecturas = 'SELECT * FROM lecturas';
-const selectLecturasByDate = 'SELECT * FROM lecturas WHERE fecha between ? and ?';
+const selectLecturasByDate = 'SELECT * FROM lecturas WHERE hora between ? and ?';
 const insertLectura = 'INSERT INTO lecturas (id_sensor, valor) values (?,?)';
 const selectLastLectura = 'SELECT id_lectura FROM lecturas WHERE id_sensor = ? ORDER BY id_lectura DESC LIMIT 1';
 

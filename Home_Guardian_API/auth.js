@@ -1,7 +1,21 @@
+const crypto = require("crypto");
 const { API_KEYS } = require("./constants");
 
-function validateApiKey(req, res) {
-    const clientKey = req.headers["x-api-key"];
+function hash(value) {
+    return crypto.createHash("sha256").update(String(value)).digest();
+}
+
+function isValidKey(clientKey) {
+    const clientHash = hash(clientKey);
+    let valid = false;
+    for (const key of API_KEYS) {
+        if (crypto.timingSafeEqual(clientHash, hash(key))) valid = true;
+    }
+    return valid;
+}
+
+function validateApiKey(req, res, allowQuery = false) {
+    const clientKey = req.headers["x-api-key"] || (allowQuery ? req.query.api_key : undefined);
 
     // Si no envía llave → error
     if (!clientKey) {
@@ -11,8 +25,8 @@ function validateApiKey(req, res) {
     }
 
     // Si la llave no está en la lista → error
-    if (!API_KEYS.includes(clientKey)) {
-        console.log("Intento fallido: API Key inválida →", clientKey);
+    if (!isValidKey(clientKey)) {
+        console.log("Intento fallido: API Key inválida.");
         res.status(401).json({ status: "error", message: "API Key inválida" });
         return false;
     }
