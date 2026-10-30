@@ -53,11 +53,35 @@ Arduino IDE (librerías DHT, PubSubClient, ESP8266WiFi), Node.js, MySQL, MySQL W
 
 ## Instalación
 
-[pendiente: pasos para correr la API (versión de Node, `npm install`, variables de entorno, crear la base de datos)]
+### API (`Home_Guardian_API/`)
 
-[pendiente: pasos para cargar el código al NodeMCU (red Wi-Fi, URL de la API, API key)]
+Requiere Node.js 18 o superior y un servidor MySQL.
 
-Las API keys van en variables de entorno, nunca escritas en el código.
+1. Crea la base de datos ejecutando el script `database/dbbackup/Home_Guardian_DB.sql`:
+   ```bash
+   mysql -u root -p < database/dbbackup/Home_Guardian_DB.sql
+   ```
+2. Instala las dependencias:
+   ```bash
+   cd Home_Guardian_API
+   npm install
+   ```
+3. Copia `.env.example` como `.env` y llena las credenciales de MySQL y las API keys válidas (separadas por comas).
+4. Inicia el servidor, que escucha en el puerto 3000:
+   ```bash
+   node app.js
+   ```
+
+Todas las rutas requieren el header `x-api-key`. Las vistas HTML se abren en el navegador pasando la llave como parámetro, por ejemplo `http://localhost:3000/iot/api/getConsultaHTML?api_key=<tu_api_key>`.
+
+### NodeMCU (`Home_Guardian_Code/`)
+
+1. En Arduino IDE, instala el paquete de placas ESP8266 y selecciona la placa **NodeMCU 1.0 (ESP-12E Module)**.
+2. Instala las librerías **DHT sensor library** y **Adafruit Unified Sensor** desde el gestor de librerías.
+3. Copia `secrets.example.h` como `secrets.h` y llena la red Wi-Fi, la URL base de la API (por ejemplo `http://192.168.1.50:3000`) y una de las API keys configuradas en el `.env` de la API.
+4. Abre `Home_Guardian_Code.ino`, compila y carga el código a la placa.
+
+Las credenciales viven en `.env` y `secrets.h`, que están en `.gitignore` y nunca se suben al repositorio.
 
 ## Pruebas
 
