@@ -2,6 +2,7 @@
 #include <WiFiClient.h>
 #include <ESP8266HTTPClient.h>
 #include <DHT.h>
+#include "secrets.h"   // Credenciales (no versionado). Copia secrets.example.h -> secrets.h
 
 #define buzzer D1
 #define boton D2
@@ -12,17 +13,13 @@
 
 DHT dht(tempSensor, DHTTYPE);
 
-
-#define WIFI_SSID "Tec-IoT"           // Tec-IoT
-#define WIFI_PASSWORD "REDACTED"       // REDACTED"
-
 HTTPClient httpClient;
 WiFiClient wClient;
 
-String URLinsertLectura = "http://REDACTED:3000/iot/api/insertLectura";
-String URLgetLastLectura = "http://REDACTED:3000/iot/api/getLastLectura";
-String URLinsertAlerta = "http://REDACTED:3000/iot/api/insertAlerta";
-String KEY = "REDACTED";
+String URLinsertLectura = String(API_BASE_URL) + "/iot/api/insertLectura";
+String URLgetLastLectura = String(API_BASE_URL) + "/iot/api/getLastLectura";
+String URLinsertAlerta = String(API_BASE_URL) + "/iot/api/insertAlerta";
+String KEY = API_KEY;
 
 
 const int umbralGas = 500;
